@@ -60,7 +60,7 @@ int main() {
 
     validateTitle(bitmap, convRomset);
     cartType = get_cart_type(romRead);
-    cout << hex << cartType;
+
     
     return 0;
 }
@@ -78,9 +78,16 @@ bool validateTitle (int defaults[], int checker[]) {
 
 u8 get_cart_type(ifstream &romRead) {
     char temp[2];
+    int type;
     
     romRead.seekg(0x0147, ios::beg);   
     romRead.read(temp, 1);
-    cout << temp[0] << endl;
+
+    type = u8(temp[0]);
+    cout << hex << "Carttype value is: 0x" << type;
+    /*switch (temp) {
+        case 0x00 : 
+    } */
+
     return temp[0];
 }
