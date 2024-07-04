@@ -69,7 +69,7 @@ int main() {
     validateTitle(bitmap, convRomset);
 
     cartType = get_cart_type(romRead);
-    cout << "Our cart's type is: " << cartType << endl;
+    cout << "Our cart's type is: " << cartType << endl << endl;
 
     cartSize = get_cart_size(romRead);
     cout << "Our cart's size is " << cartSize << endl;
@@ -85,7 +85,7 @@ bool validateTitle (int defaults[], int checker[]) {
             return false;
         }
     }
-    cout << endl << "The cartridge title hexdump is validated. Continuing." << endl;
+    cout << endl << "The cartridge title hexdump is validated. Continuing." << endl << endl;
     return true;
 }
 
@@ -97,7 +97,7 @@ string get_cart_type(ifstream &romRead) {
     romRead.read(temp, 1);
 
     type = u8(temp[0]);
-    cout << hex << "Cart-type hex is: 0x" << type << endl << endl;
+    cout << hex << "Cart-type hex is: 0x" << type << endl;
 
     switch (type) {
         case 0x00 : 
@@ -170,7 +170,7 @@ string get_cart_size(ifstream &romRead) {
     romRead.read(temp, 1);
 
     size = u8(temp[0]);
-    cout << hex << "Cart-size hex is: 0x" << size << endl << endl;
+    cout << hex << "Cart-size hex is: 0x" << size << endl;
     
     switch (size) {
         case 0x00 :
