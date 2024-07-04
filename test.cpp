@@ -7,6 +7,7 @@
 #include <filesystem>
 
 using namespace std;
+
 bool validateTitle (int defaults[], int checker[]);
 string get_cart_type(ifstream &romRead);
 
@@ -23,15 +24,17 @@ int main() {
     char romsets[48];
     int convRomset[48];
     string cartType;
-
     ifstream romRead;
     string filename;
+    int temp1;
+    u8 temp2;
+
     cout << "Please enter a file to open. (correct path required if not in this folder)\n";
     cin >> filename;
 
     romRead.open(filename, ios::binary | ios::in);
     if (!romRead) {
-        return -1;
+        return -1;  // checks if our input stream was opened correctly
     }
 
     romRead.seekg(0x0134, ios::beg);         //places our read pointer at the starting position for cart titles (0x0134)
@@ -40,9 +43,6 @@ int main() {
 
     romRead.seekg(0x0104, ios::beg);
     romRead.read(romsets, 0x30);
-
-    int temp1;
-    u8 temp2;
 
     cout << "The ROMs bootcheck sum is:                  ";
     for (int i = 0; i < 48; i++) {
@@ -62,7 +62,7 @@ int main() {
 
     validateTitle(bitmap, convRomset);
     cartType = get_cart_type(romRead);
-
+    cout << "Our cart's type is " << cartType << endl;
     
     return 0;
 }
@@ -86,7 +86,7 @@ string get_cart_type(ifstream &romRead) {
     romRead.read(temp, 1);
 
     type = u8(temp[0]);
-    cout << hex << "Carttype value is: 0x" << type;
+    cout << hex << "Cart-type hex is: 0x" << type << endl;
 
     switch (type) {
         case 0x00 : 
@@ -107,8 +107,46 @@ string get_cart_type(ifstream &romRead) {
             return "ROM+RAM+BATTERY";
         case 0x0B :
             return "MMM01";
-            
+        case 0x0C :
+            return "MMM01+RAM";
+        case 0x0D :
+            return "MMM01+RAM+BATTERY";
+        case 0x0F :
+            return "MBC3+TIMER+BATTERY";
+        case 0x10 :
+            return "MBC3+TIMER+RAM+BATTERY";
+        case 0x11 :
+            return "MBC3";
+        case 0x12 :
+            return "MBC3+RAM";
+        case 0x13 :
+            return "MBC3+RAM+BATTERY";
+        case 0x19 :
+            return "MBC5";
+        case 0x1A :
+            return "MBC5+RAM";
+        case 0x1B :
+            return "MBC5+RAM+BATTERY";
+        case 0x1C :
+            return "MBC5+RUMBLE";
+        case 0x1D :
+            return "MBC5+RUMBLE+RAM";
+        case 0x1E :
+            return "MBC5+RUMBLE+RAM+BATTERY";
+        case 0x20 :
+            return "MBC6";
+        case 0x22 :
+            return "MBC7+SENSOR+RUMBLE+RAM+BATTERY";
+        case 0xFC :
+            return "POCKET CAMERA";
+        case 0xFD :
+            return "BANDAI TAMA5";
+        case 0xFE :
+            return "HuC3";
+        case 0xFF :
+            return "HuC1+RAM+BATTERY";
+        default :
+            return "ERROR";
     } 
-
-    //return temp[0];
+    return "FAILURE";
 }
