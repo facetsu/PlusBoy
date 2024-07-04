@@ -11,6 +11,7 @@ using namespace std;
 bool validateTitle (int defaults[], int checker[]);
 string get_cart_type(ifstream &romRead);
 string get_cart_size(ifstream &romRead);
+string get_region_code(ifstream &romRead);
 
 /* This is default Gameboy title which all cartridges must
     pass a check agaisnt for the bootloader to continue.
@@ -30,12 +31,14 @@ int main() {
     int convRomset[48];
     string cartType;
     string cartSize;
+    string cartRegion;
+
     ifstream romRead;
     string filename;
     int temp1;
     u8 temp2;
 
-    cout << "Please enter a file to open. (correct path required if not in this folder)\n";
+    cout << "\nPlease enter a file to open. (correct path required if not in this folder)\n";
     cin >> filename;
 
     romRead.open(filename, ios::binary | ios::in);
@@ -45,7 +48,7 @@ int main() {
 
     romRead.seekg(0x0134, ios::beg);         //places our read pointer at the starting position for cart titles (0x0134)
     romRead.read(title, 0x10);               // reads the cart title. they must always fit into 0xF long bytes (16 bytes).
-    cout << "The internal cartridge title is: " << title << endl << endl;
+    cout << endl << "The internal cartridge title is: " << title << endl << endl;
 
     romRead.seekg(0x0104, ios::beg);
     romRead.read(romsets, 0x30);
@@ -72,8 +75,10 @@ int main() {
     cout << "Our cart's type is: " << cartType << endl << endl;
 
     cartSize = get_cart_size(romRead);
-    cout << "Our cart's size is " << cartSize << endl;
+    cout << "Our cart's size is " << cartSize << endl << endl;
 
+    cartRegion = get_region_code(romRead);
+    cout << "This cartridge has a market destination of: " << cartRegion << endl;
     
     return 0;
 }
@@ -201,4 +206,20 @@ string get_cart_size(ifstream &romRead) {
             return "ERROR";
     }
     return "ERROR";
+}
+
+string get_region_code(ifstream &romRead) {
+    char temp[2];
+    int dest;
+
+    romRead.seekg(0x014A, ios::beg);   
+    romRead.read(temp, 1);
+
+    dest = u8(temp[0]);
+    if (dest == 0x00) {
+        return "Japan";
+    }
+    else {
+        return "Overseas (NA | EU)";
+    }
 }
