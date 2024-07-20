@@ -16,6 +16,8 @@ string get_cart_size(ifstream &romRead);
 string get_region_code(ifstream &romRead);
 string get_ram_size(ifstream &romRead);
 string get_licensee_code(ifstream &romRead);
+int get_ROM_version(ifstream &romRead);
+u8 get_header_checksum (ifstream &romRead);
 
 /* This is default Gameboy title which all cartridges must
     pass a check agaisnt for the bootloader to continue.
@@ -33,11 +35,13 @@ int main() {
     char title[16];
     char romsets[48];
     int convRomset[48];
+    int romVersion;
     string cartType;
     string cartSize;
     string cartRegion;
     string ramSize;
     string licensee;
+    u8 checksum;
 
     ifstream romRead;
     string filename;
@@ -90,8 +94,13 @@ int main() {
     cout << "This cartridge has a market destination of: " << cartRegion << endl;
 
     licensee = get_licensee_code(romRead);
-    cout << "TESTING:" << licensee << endl;
+    cout << "This cartridge is published by: " << licensee << endl;
+
+    romVersion = get_ROM_version(romRead);
+    cout << "The cartridge's game version is: v" << (romVersion + 1) << endl;
     
+    checksum = get_header_checksum(romRead);
+    cout << "The checksum is: " << hex << int(checksum) << endl;
     return 0;
 }
 
@@ -265,6 +274,31 @@ string get_region_code(ifstream &romRead) {
     }
 }
 
+int get_ROM_version(ifstream &romRead) {
+    char temp[2];
+    int version;
+
+    romRead.seekg(0x014C, ios::beg);   
+    romRead.read(temp, 1);
+
+    version = u8(temp[0]);
+    
+    return version;
+}
+
+u8 get_header_checksum (ifstream &romRead) {
+    u16 temp = 0;
+    u8 checksum = 0;
+
+    for (u16 address = 0x0134; address <= 0x014C; address++) {
+        romRead.seekg(address, ios::beg);   
+        romRead.read(reinterpret_cast<char*>(&temp), sizeof(temp));
+
+        checksum = checksum - temp - 1;
+    }
+    return checksum;
+}
+
 string get_licensee_code(ifstream &romRead) {
     char temp[2];
     int license;
@@ -420,7 +454,7 @@ string get_licensee_code(ifstream &romRead) {
                 return "Pack-In-Video";
             default:
                 return "ERROR: NOT FOUND";
-        };
+        }
     }
 
     switch(license) {
@@ -718,7 +752,6 @@ string get_licensee_code(ifstream &romRead) {
             return "LJN";
         default:
             return "ERROR: NOT FOUND";
-    };
-
+    }
     return "ERROR: NOT FOUND";
 }
