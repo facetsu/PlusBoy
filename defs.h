@@ -1,6 +1,7 @@
 #include <stdint.h>
 
-typedef uint8_t u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
+using u8 = uint8_t;
+//using byte = uint8_t;
+using u16 = uint16_t;
+using u32 = uint32_t;
 
