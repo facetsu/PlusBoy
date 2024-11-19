@@ -1,39 +1,57 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <filesystem>
+#include <cstring>
+
 #include "cartridge.h"
 
 using namespace std;
 
-Cartridge::Cartridge(const std::string& filepath) 
+Cartridge::Cartridge(std::string& filepath) 
 {
     loadROM(filepath);
 }
 
- void Cartridge::loadROM(const std::string& filepath) 
-{
-    readROM.clear();
-    std::cout << "Loading ROM: " << filepath << std::endl;
+void Cartridge::loadROM(std::string& filepath) {
+   bool fileLoaded = false;
+   
+   while (!fileLoaded) {
+       readROM.clear();
+       std::cout << "Loading ROM: " << filepath << std::endl << std::endl;
 
-    if(!std::filesystem::exists(filepath)) 
-    {
-        std::cout << "File does not exist: " << filepath << std::endl;
-    }
+       if (!std::filesystem::exists(filepath)) {
+           std::cout << "File does not exist: " << filepath << std::endl;
+           std::cout << "Please enter a new filepath (or 'quit' to exit): ";
+           std::cin >> filepath;
+           if (filepath == "quit") return;
+           continue;
+       }
 
-    // get our filesize and resize our vector
-    auto filesize = std::filesystem::file_size(filepath);
-    readROM.resize(filesize);
+       // get our filesize and resize our vector
+       auto filesize = std::filesystem::file_size(filepath);
+       readROM.resize(filesize);
 
-    // open file
-    std::ifstream file(filepath, std::ios::binary);
-    if(!file)
-    {
-        std::cout << "Failed to open file." << std::endl;
-    }
+       // open file
+       std::ifstream file(filepath, std::ios::binary);
+       if (!file) {
+           std::cout << "Failed to open file." << std::endl;
+           std::cout << "Please enter a new filepath (or 'quit' to exit): ";
+           std::cin >> filepath;
+           if (filepath == "quit") return;
+           continue;
+       }
 
-    // read file
-    file.read(reinterpret_cast<char*>(readROM.data()), filesize);
-    file.close();
+       // read file
+       file.read(reinterpret_cast<char*>(readROM.data()), filesize);
+       file.close();
 
-    parseHeader();
-    validateBootsum();
+       parseHeader();
+       validateBootsum();
+       printDetails();
+       
+       fileLoaded = true;
+   }
 }
 
 
@@ -86,4 +104,15 @@ bool Cartridge::validateBootsum()
     }
     std::cout << endl << "The cartridge title hexdump is validated. Continuing." << std::endl << std::endl;
     return true;
+}
+
+void Cartridge::printDetails()
+{
+    std::cout << hex 
+    << "The cartridge's type is: 0x" << static_cast<int>(cartType) << std::endl
+    << "The cartridge's size is: 0x" << static_cast<int>(cartSize) << std::endl
+    << "The cartridge's RAM is: 0x" << static_cast<int>(cartRamsize) << std::endl
+    << "The cartridge's licensee is: 0x" << static_cast<int>(cartLicensee) << std::endl
+    << "The cartridge's region is: 0x" << static_cast<int>(cartRegion) << std::endl
+    << "The cartridge's version is: 0x" << static_cast<int>(cartVersion) << std::endl;
 }

@@ -1,10 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
 #include <string>
-#include <sstream>
-#include <filesystem>
 #include <vector>
 #include "defs.h"
 
@@ -15,9 +11,9 @@ class Cartridge
     Cartridge() = default;
 
     // constructor to load ROM immediately
-    explicit Cartridge(const std::string& filepath);
+    explicit Cartridge(std::string& filepath);
 
-    void loadROM(const std::string& filepath);
+    void loadROM(std::string& filepath);
 
     private:
         char title[16];
@@ -34,4 +30,5 @@ class Cartridge
 
         void parseHeader();
         bool validateBootsum();
+        void printDetails();
 };
