@@ -2,7 +2,8 @@
 
 using namespace std;
 
-Cartridge::Cartridge(const std::string& filepath) {
+Cartridge::Cartridge(const std::string& filepath) 
+{
     loadROM(filepath);
 }
 
@@ -64,14 +65,14 @@ bool Cartridge::validateBootsum()
     std::cout << "The ROMs bootcheck sum is:                  ";
     for (int i = 0; i < 48; i++) 
     {
-        cout << hex << uppercase << romsets[i] << " ";
+        cout << hex << uppercase << static_cast<int>(romsets[i]) << " ";
     }
     std::cout << std::endl;
 
     std::cout << "The required bootsum is:                    ";
     for (int i = 0; i < 48; i++) 
     {
-        std::cout << bitmap[i] << " ";
+        std::cout << static_cast<int>(bitmap[i]) << " ";
     }
     std::cout << endl;
 
