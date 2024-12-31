@@ -19,7 +19,8 @@ class Cartridge
         char title[16];
         u8 romsets[48];
         u8 newCartLicensee[2];
-        u8 cartType, cartSize, cartRegion, cartRamsize, cartLicensee, cartVersion, headerChecksum;
+        u8 cartVersion;
+        std::string cartType, cartSize, cartRegion, cartRamsize, cartLicensee, headerChecksum;
         std::vector<u8> readROM;
         static constexpr u8 bitmap[48] = 
         {

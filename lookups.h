@@ -1,4 +1,8 @@
-#include "cartridge.h"
+#include <string>
+#include <iostream>
+#include "defs.h"
+
+using namespace std;
 
 std::string get_cart_type(u8 input) {
 
@@ -68,6 +72,7 @@ std::string get_cart_type(u8 input) {
 }
 
 std::string get_cart_size(u8 input) {
+
     int size = static_cast<int>(input);
     
     switch (size) {
@@ -101,15 +106,9 @@ std::string get_cart_size(u8 input) {
     return "ERROR";
 }
 
-std::string get_ram_size(ifstream &romRead) {
-    char temp[2];
-    int size;
+std::string get_ram_size(u8 input) {
 
-    romRead.seekg(0x0149, ios::beg);   
-    romRead.read(temp, 1);
-
-    size = u8(temp[0]);
-    cout << hex << "Cart ram-size hex is: 0x" << size << endl;
+    int size = static_cast<int>(input);
     
     switch (size) {
         case 0x00 :
@@ -130,14 +129,10 @@ std::string get_ram_size(ifstream &romRead) {
     return "ERROR";
 }
 
-string get_region_code(ifstream &romRead) {
-    char temp[2];
-    int dest;
+string get_region_code(u8 input) {
 
-    romRead.seekg(0x014A, ios::beg);   
-    romRead.read(temp, 1);
+    int dest = static_cast<int>(input);
 
-    dest = u8(temp[0]);
     if (dest == 0x00) {
         return "Japan";
     }
@@ -146,45 +141,20 @@ string get_region_code(ifstream &romRead) {
     }
 }
 
-int get_ROM_version(ifstream &romRead) {
+string get_licensee_code(u8 input, u8 newLicense[]) {
     char temp[2];
-    int version;
+    int tempint;
 
-    romRead.seekg(0x014C, ios::beg);   
-    romRead.read(temp, 1);
+    tempint = newLicense[0];
+    temp[0] = static_cast<int>(tempint);
 
-    version = u8(temp[0]);
-    
-    return version;
-}
+    tempint = newLicense[1];
+    temp[1] = static_cast<int>(tempint);
 
-u8 get_header_checksum (ifstream &romRead) {
-    u16 temp = 0;
-    u8 checksum = 0;
-
-    for (u16 address = 0x0134; address <= 0x014C; address++) {
-        romRead.seekg(address, ios::beg);   
-        romRead.read(reinterpret_cast<char*>(&temp), sizeof(temp));
-
-        checksum = checksum - temp - 1;
-    }
-    return checksum;
-}
-
-string get_licensee_code(ifstream &romRead) {
-    char temp[2];
-    int license;
-
-    romRead.seekg(0x014B, ios::beg);
-    romRead.read(temp, 1);
-
-    license = u8(temp[0]);
+    int license = static_cast<int>(input);
 
     // if the new licensee code must be used
     if (license == 0x33) { 
-
-        romRead.seekg(0x0144, ios::beg);
-        romRead.read(temp, 2);
 
         if (!isdigit(temp[0]) || !isdigit(temp[1])) {
             if (temp[0] == '9') {
