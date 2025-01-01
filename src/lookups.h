@@ -4,8 +4,8 @@
 
 using namespace std;
 
-std::string get_cart_type(u8 input) {
-
+std::string get_cart_type(u8 input) 
+{
     int type = static_cast<int>(input);
 
     switch (type) {
@@ -71,8 +71,8 @@ std::string get_cart_type(u8 input) {
     return "FAILURE";
 }
 
-std::string get_cart_size(u8 input) {
-
+std::string get_cart_size(u8 input) 
+{
     int size = static_cast<int>(input);
     
     switch (size) {
@@ -106,8 +106,8 @@ std::string get_cart_size(u8 input) {
     return "ERROR";
 }
 
-std::string get_ram_size(u8 input) {
-
+std::string get_ram_size(u8 input) 
+{
     int size = static_cast<int>(input);
     
     switch (size) {
@@ -129,19 +129,22 @@ std::string get_ram_size(u8 input) {
     return "ERROR";
 }
 
-string get_region_code(u8 input) {
-
+string get_region_code(u8 input) 
+{
     int dest = static_cast<int>(input);
 
-    if (dest == 0x00) {
+    if (dest == 0x00) 
+    {
         return "Japan";
     }
-    else {
+    else 
+    {
         return "Overseas (NA | EU)";
     }
 }
 
-string get_licensee_code(u8 input, u8 newLicense[]) {
+string get_licensee_code(u8 input, u8 newLicense[]) 
+{
     char temp[2];
     int tempint;
 
@@ -154,19 +157,24 @@ string get_licensee_code(u8 input, u8 newLicense[]) {
     int license = static_cast<int>(input);
 
     // if the new licensee code must be used
-    if (license == 0x33) { 
-
-        if (!isdigit(temp[0]) || !isdigit(temp[1])) {
-            if (temp[0] == '9') {
+    if (license == 0x33) 
+    { 
+        if (!isdigit(temp[0]) || !isdigit(temp[1])) 
+        {
+            if (temp[0] == '9') 
+            {
                 return "Bottom Up";
-            }
-            else if (temp[0] == 'A') {
+            } 
+            else if (temp[0] == 'A') 
+            {
                 return "Konami";
-            }
-            else if (temp[0] == 'B') {
+            } 
+            else if (temp[0] == 'B') 
+            {
                 return "MTO";
-            }
-            else {
+            } 
+            else 
+            {
                 return "Kodansha";
             }
         }
