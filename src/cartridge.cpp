@@ -93,13 +93,13 @@ bool Cartridge::validateBootsum()
     std::cout << "The required bootsum is:                    ";
     for (int i = 0; i < 48; i++) 
     {
-        std::cout << static_cast<int>(bitmap[i]) << " ";
+        std::cout << static_cast<int>(BITMAP[i]) << " ";
     }
     std::cout << endl;
 
     for(int i = 0; i < 48; i++) 
     {
-        if (romsets[i] != bitmap[i]) 
+        if (romsets[i] != BITMAP[i]) 
         {
             std::cout << "The title hexdump does not match! Not a genuine cartridge." << "\n" << "\n";
             return false;
