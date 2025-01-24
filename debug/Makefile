@@ -1,3 +1,13 @@
+CXX = g++
+
+DEBUG = debug.exe
+DEBUGDIR = debug
+
+DEBUGSRCS = cartridgedebug.cpp debugger.cpp lookups.cpp
+
+
+#############################################################
+
 debug: cartridgedebug.o debugger.o lookups.o
 	g++ -o debug.exe cartridgedebug.o debugger.o lookups.o
 
@@ -10,7 +20,8 @@ debugger.o: debugger.cpp
 lookups.o: lookups.cpp
 	g++ -c lookups.cpp
 
-	
+#############################################################
+
 # Clean Target to Remove Build Artifacts
 clean:
 	del /f /q *.o *.exe
