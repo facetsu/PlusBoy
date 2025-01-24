@@ -1,6 +1,5 @@
-#include <string>
-#include <iostream>
-#include "defs.h"
+#include "../include/lookups.h"
+#include "../include/defs.h"
 
 using namespace std;
 

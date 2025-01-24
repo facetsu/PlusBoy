@@ -4,8 +4,8 @@
 #include <filesystem>
 #include <cstring>
 
-#include "cartridge.h"
-#include "lookups.h"
+#include "../include/cartridge.h"
+#include "../include/lookups.h"
 
 using namespace std;
 
