@@ -16,5 +16,5 @@ class CPU
         void setDE(u8 d, u8 e);
         void setHL(u8 h, u8 l);
         void executeOpcode();
-        u8 fetchOpcode();
+        u8 fetchOpcode(u8 sp);
 };

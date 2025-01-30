@@ -31,14 +31,14 @@ void CPU::setHL(u8 h, u8 l)
     this->hl = (h << 8) | l; 
 }
 
-u8 CPU::fetchOpcode()
+u8 CPU::fetchOpcode(u8 sp)
 {
-
+    
 }
 
 
 void CPU::executeOpcode()
 {
-    u8 opcode = fetchOpcode();
+    u8 opcode = fetchOpcode(sp++);
 
 }
