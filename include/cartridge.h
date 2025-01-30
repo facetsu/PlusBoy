@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "defs.h"
+#include "lookups.h"
 
 class Cartridge
 {
@@ -11,9 +12,10 @@ class Cartridge
     Cartridge() = default;
 
     // constructor to load ROM immediately
-    explicit Cartridge(std::string& filepath);
+    explicit Cartridge(std::string& filepath, std::string& bootrompath); 
 
     void loadROM(std::string& filepath);
+    void loadBootROM(std::string& bootrompath);
 
     private:
         char title[16];
@@ -22,6 +24,8 @@ class Cartridge
         u8 cartVersion;
         std::string cartType, cartSize, cartRegion, cartRamsize, cartLicensee, headerChecksum;
         std::vector<u8> readROM;
+
+        // This is the bitmap that is checked against the cartridge's bitmap
         static constexpr u8 BITMAP[48] = 
         {
             0xCE, 0xED, 0x66, 0x66, 0xCC, 0x0D, 0x00, 0x0B, 0x03, 0x73, 0x00, 0x83, 0x00, 0x0C, 0x00, 0x0D,

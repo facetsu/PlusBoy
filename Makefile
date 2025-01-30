@@ -6,7 +6,7 @@ CXXFLAGS = -Wall -Wextra -std=c++17
 
 # Source files for debug and release builds
 DEBUG_SOURCES = debug/cartridgedebug.cpp debug/debugger.cpp debug/lookups.cpp
-RELEASE_SOURCES = src/cartridgedebug.cpp src/debugger.cpp src/lookups.cpp
+RELEASE_SOURCES = src/cartridge.cpp src/main.cpp src/lookups.cpp
 
 # Debug build directories
 DEBUG_DIR = debug

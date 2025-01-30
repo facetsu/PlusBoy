@@ -1,0 +1,9 @@
+https://gbdev.io/pandocs/
+
+https://imrannazar.com/GameBoy-Emulation-in-JavaScript
+
+https://github.com/Dooskington/GameLad/wiki
+
+https://emudev.de/gameboy-emulator/getting-started-with-the-cpu/
+
+https://realboyemulator.wordpress.com/2013/01/03/a-look-at-the-game-boy-bootstrap-let-the-fun-begin/

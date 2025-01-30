@@ -9,9 +9,10 @@
 
 using namespace std;
 
-Cartridge::Cartridge(std::string& filepath) 
+Cartridge::Cartridge(std::string& filepath, std::string&bootrompath) 
 {
     loadROM(filepath);
+    loadBootROM(bootrompath);
 }
 
 void Cartridge::loadROM(std::string& filepath) 
@@ -21,16 +22,6 @@ void Cartridge::loadROM(std::string& filepath)
    while (!fileLoaded) 
    {
        readROM.clear();
-       std::cout << "Loading ROM: " << filepath << "\n" << "\n";
-
-       if (!std::filesystem::exists(filepath)) 
-       {
-           std::cout << "File does not exist: " << filepath << "\n";
-           std::cout << "Please enter a new filepath (or 'quit' to exit): ";
-           std::cin >> filepath;
-           if (filepath == "quit") return;
-           continue;
-       }
 
        // get our filesize and resize our vector
        auto filesize = std::filesystem::file_size(filepath);
@@ -49,6 +40,7 @@ void Cartridge::loadROM(std::string& filepath)
 
        // read file
        file.read(reinterpret_cast<char*>(readROM.data()), filesize);
+
        file.close();
 
        parseHeader();
@@ -59,6 +51,30 @@ void Cartridge::loadROM(std::string& filepath)
    }
 }
 
+void Cartridge::loadBootROM(std::string& bootrompath) 
+{
+   bool fileLoaded = false;
+   
+   while (!fileLoaded) 
+   {
+       // open file
+       std::ifstream file(bootrompath, std::ios::binary);
+       if (!file) 
+       {
+           std::cout << "Failed to open file." << "\n";
+           std::cout << "Please enter a new filepath (or 'quit' to exit): ";
+           std::cin >> bootrompath;
+           if (bootrompath == "quit") return;
+           continue;
+       }
+
+       // read file
+       file.read(reinterpret_cast<char*>(readROM.data()), 0x100);
+
+       file.close();      
+       fileLoaded = true;
+   }
+}
 
 void Cartridge::parseHeader() 
 {
@@ -73,7 +89,7 @@ void Cartridge::parseHeader()
     // copy the new licensee code into an array
     std::memcpy(newCartLicensee, readROM.data() + 0x0144, 0x02);
 
-    cartType = get_cart_type(readROM[0x0147]);
+    cartType = cartTypeToString(get_cart_type(readROM[0x0147]));
     cartSize = get_cart_size(readROM[0x0148]);
     cartRamsize = get_ram_size(readROM[0x0149]);
     cartLicensee = get_licensee_code(readROM[0x014B], newCartLicensee);

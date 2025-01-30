@@ -3,71 +3,72 @@
 
 using namespace std;
 
-std::string get_cart_type(u8 input) 
-{
-    int type = static_cast<int>(input);
+CartridgeType get_cart_type(uint8_t input) {
+    switch (input) {
+        case 0x00: return CartridgeType::ROM_ONLY;
+        case 0x01: return CartridgeType::MBC1;
+        case 0x02: return CartridgeType::MBC1_RAM;
+        case 0x03: return CartridgeType::MBC1_RAM_BATTERY;
+        case 0x05: return CartridgeType::MBC2;
+        case 0x06: return CartridgeType::MBC2_BATTERY;
+        case 0x08: return CartridgeType::ROM_RAM;
+        case 0x09: return CartridgeType::ROM_RAM_BATTERY;
+        case 0x0B: return CartridgeType::MMM01;
+        case 0x0C: return CartridgeType::MMM01_RAM;
+        case 0x0D: return CartridgeType::MMM01_RAM_BATTERY;
+        case 0x0F: return CartridgeType::MBC3_TIMER_BATTERY;
+        case 0x10: return CartridgeType::MBC3_TIMER_RAM_BATTERY;
+        case 0x11: return CartridgeType::MBC3;
+        case 0x12: return CartridgeType::MBC3_RAM;
+        case 0x13: return CartridgeType::MBC3_RAM_BATTERY;
+        case 0x19: return CartridgeType::MBC5;
+        case 0x1A: return CartridgeType::MBC5_RAM;
+        case 0x1B: return CartridgeType::MBC5_RAM_BATTERY;
+        case 0x1C: return CartridgeType::MBC5_RUMBLE;
+        case 0x1D: return CartridgeType::MBC5_RUMBLE_RAM;
+        case 0x1E: return CartridgeType::MBC5_RUMBLE_RAM_BATTERY;
+        case 0x20: return CartridgeType::MBC6;
+        case 0x22: return CartridgeType::MBC7_SENSOR_RUMBLE_RAM_BATTERY;
+        case 0xFC: return CartridgeType::POCKET_CAMERA;
+        case 0xFD: return CartridgeType::BANDAI_TAMA5;
+        case 0xFE: return CartridgeType::HuC3;
+        case 0xFF: return CartridgeType::HuC1_RAM_BATTERY;
+        default: return CartridgeType::UNKNOWN;
+    }
+}
 
+std::string cartTypeToString(CartridgeType type) {
     switch (type) {
-        case 0x00 : 
-            return "ROM ONLY";
-        case 0x01 :
-            return "MBC1";
-        case 0x02 :
-            return "MBC1+RAM";
-        case 0x03 :
-            return "MBC1+RAM+BATTERY";
-        case 0x05 :
-            return "MBC2";
-        case 0x06 :
-            return "MBC2+BATTERY";
-        case 0x08 :
-            return "ROM+RAM ";
-        case 0x09 :
-            return "ROM+RAM+BATTERY";
-        case 0x0B :
-            return "MMM01";
-        case 0x0C :
-            return "MMM01+RAM";
-        case 0x0D :
-            return "MMM01+RAM+BATTERY";
-        case 0x0F :
-            return "MBC3+TIMER+BATTERY";
-        case 0x10 :
-            return "MBC3+TIMER+RAM+BATTERY";
-        case 0x11 :
-            return "MBC3";
-        case 0x12 :
-            return "MBC3+RAM";
-        case 0x13 :
-            return "MBC3+RAM+BATTERY";
-        case 0x19 :
-            return "MBC5";
-        case 0x1A :
-            return "MBC5+RAM";
-        case 0x1B :
-            return "MBC5+RAM+BATTERY";
-        case 0x1C :
-            return "MBC5+RUMBLE";
-        case 0x1D :
-            return "MBC5+RUMBLE+RAM";
-        case 0x1E :
-            return "MBC5+RUMBLE+RAM+BATTERY";
-        case 0x20 :
-            return "MBC6";
-        case 0x22 :
-            return "MBC7+SENSOR+RUMBLE+RAM+BATTERY";
-        case 0xFC :
-            return "POCKET CAMERA";
-        case 0xFD :
-            return "BANDAI TAMA5";
-        case 0xFE :
-            return "HuC3";
-        case 0xFF :
-            return "HuC1+RAM+BATTERY";
-        default :
-            return "ERROR";
-    } 
-    return "FAILURE";
+        case CartridgeType::ROM_ONLY: return "ROM ONLY";
+        case CartridgeType::MBC1: return "MBC1";
+        case CartridgeType::MBC1_RAM: return "MBC1+RAM";
+        case CartridgeType::MBC1_RAM_BATTERY: return "MBC1+RAM+BATTERY";
+        case CartridgeType::MBC2: return "MBC2";
+        case CartridgeType::MBC2_BATTERY: return "MBC2+BATTERY";
+        case CartridgeType::ROM_RAM: return "ROM+RAM";
+        case CartridgeType::ROM_RAM_BATTERY: return "ROM+RAM+BATTERY";
+        case CartridgeType::MMM01: return "MMM01";
+        case CartridgeType::MMM01_RAM: return "MMM01+RAM";
+        case CartridgeType::MMM01_RAM_BATTERY: return "MMM01+RAM+BATTERY";
+        case CartridgeType::MBC3_TIMER_BATTERY: return "MBC3+TIMER+BATTERY";
+        case CartridgeType::MBC3_TIMER_RAM_BATTERY: return "MBC3+TIMER+RAM+BATTERY";
+        case CartridgeType::MBC3: return "MBC3";
+        case CartridgeType::MBC3_RAM: return "MBC3+RAM";
+        case CartridgeType::MBC3_RAM_BATTERY: return "MBC3+RAM+BATTERY";
+        case CartridgeType::MBC5: return "MBC5";
+        case CartridgeType::MBC5_RAM: return "MBC5+RAM";
+        case CartridgeType::MBC5_RAM_BATTERY: return "MBC5+RAM+BATTERY";
+        case CartridgeType::MBC5_RUMBLE: return "MBC5+RUMBLE";
+        case CartridgeType::MBC5_RUMBLE_RAM: return "MBC5+RUMBLE+RAM";
+        case CartridgeType::MBC5_RUMBLE_RAM_BATTERY: return "MBC5+RUMBLE+RAM+BATTERY";
+        case CartridgeType::MBC6: return "MBC6";
+        case CartridgeType::MBC7_SENSOR_RUMBLE_RAM_BATTERY: return "MBC7+SENSOR+RUMBLE+RAM+BATTERY";
+        case CartridgeType::POCKET_CAMERA: return "POCKET CAMERA";
+        case CartridgeType::BANDAI_TAMA5: return "BANDAI TAMA5";
+        case CartridgeType::HuC3: return "HuC3";
+        case CartridgeType::HuC1_RAM_BATTERY: return "HuC1+RAM+BATTERY";
+        default: return "UNKNOWN";
+    }
 }
 
 std::string get_cart_size(u8 input) 

@@ -1,4 +1,4 @@
-#include "cpu.h"
+#include "../include/cpu.h"
 
 CPU::CPU()
 {
@@ -26,7 +26,19 @@ void CPU::setDE(u8 d, u8 e)
     this->de = (d << 8) | e; 
 }
 
-void CPU::setBC(u8 h, u8 l)
+void CPU::setHL(u8 h, u8 l)
 {
     this->hl = (h << 8) | l; 
+}
+
+u8 CPU::fetchOpcode()
+{
+
+}
+
+
+void CPU::executeOpcode()
+{
+    u8 opcode = fetchOpcode();
+
 }

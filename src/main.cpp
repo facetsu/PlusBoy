@@ -1,21 +1,54 @@
-#include "cartridge.h"
+#include "../include/cartridge.h"
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <filesystem>
 
 int main() 
 {
     std::string filepath;
-    std::cout << "=== Cartridge Test Driver ===\n";
+    std::string bootrompath;
+    bool fileLoaded = false;
 
-    // Test loading a valid ROM
     std::cout << "Please enter a rom filepath to test: " << std::endl;
     std::cin >> filepath;
-        Cartridge cart(filepath);  // This will automatically:
-                                     // 1. Load the ROM
-                                     // 2. Parse the header
-                                     // 3. Validate bootsum
-                                     // 4. Print all the info
-    std::cin >> filepath;
+
+    while (!fileLoaded) 
+    {
+       if (!std::filesystem::exists(filepath)) 
+       {
+           std::cout << "File does not exist: " << filepath << "\n";
+           std::cout << "Please enter a new filepath (or 'quit' to exit): ";
+           std::cin >> filepath;
+           if (filepath == "quit") return -1;
+           continue;
+       }
+       fileLoaded = true;
+    }
+
+    fileLoaded = false;
+    std::cout << "Please enter a bootROM filepath to test: " << std::endl;
+    std::cin >> bootrompath;
+
+    while (!fileLoaded) 
+    {
+       if (!std::filesystem::exists(filepath)) 
+       {
+           std::cout << "File does not exist: " << filepath << "\n";
+           std::cout << "Please enter a new filepath (or 'quit' to exit): ";
+           std::cin >> filepath;
+           if (filepath == "quit") return -1;
+           continue;
+       }
+       fileLoaded = true;
+    }
+
+    Cartridge cartridge(filepath, bootrompath);
+
+
+
+    
+    std::cin >> filepath;   // just to keep terminal open
+
     return 0;
 }
