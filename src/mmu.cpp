@@ -12,3 +12,8 @@ void Memory::printOutSomeMemory()
         cout << hex << uppercase << static_cast<int>(memory[i]) << " ";
     }
 }
+
+u8 Memory::readByte(u8 sp)
+{
+    return memory[sp];
+}

@@ -1,5 +1,6 @@
 #include "../include/cartridge.h"
 #include "../include/mmu.h"
+#include "../include/cpu.h"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -44,11 +45,13 @@ int main()
        fileLoaded = true;
     }
 
-    Memory memory(filepath, bootrompath);
+    Memory* memorypointer = new Memory(filepath, bootrompath);
+    CPU cpu(memorypointer);
+    cpu.fetch();
+    std::cout << "This is the opcode it fetched: " << static_cast<int>(cpu.opcode) << std::endl;
+    delete memorypointer;
 
 
-
-    
     std::cin >> filepath;   // just to keep terminal open
 
     return 0;

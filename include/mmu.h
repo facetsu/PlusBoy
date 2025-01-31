@@ -23,4 +23,5 @@ class Memory
 
         void copyROMToMemory();
         void printOutSomeMemory();
+        u8 readByte(u8 sp);
 };
