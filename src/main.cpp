@@ -1,4 +1,5 @@
 #include "../include/cartridge.h"
+#include "../include/mmu.h"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -43,7 +44,7 @@ int main()
        fileLoaded = true;
     }
 
-    Cartridge cartridge(filepath, bootrompath);
+    Memory memory(filepath, bootrompath);
 
 
 
