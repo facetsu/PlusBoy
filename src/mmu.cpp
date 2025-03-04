@@ -13,7 +13,7 @@ void Memory::printOutSomeMemory()
     }
 }
 
-u8 Memory::readByte(u8 sp)
+u8 Memory::readByte(u8 pc)
 {
-    return memory[sp];
+    return memory[pc];
 }

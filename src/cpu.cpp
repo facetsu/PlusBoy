@@ -33,5 +33,16 @@ void CPU::setHL(u8 h, u8 l)
 
 void CPU::fetch()
 {
-    opcode = memory->readByte(sp);
+    opcode = memory->readByte(pc);
+    pc++;
+}
+
+void CPU::decode()
+{
+
+}
+
+void CPU::execute()
+{
+
 }

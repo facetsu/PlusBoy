@@ -3,6 +3,8 @@
 
 using namespace std;
 
+// big and uogly lookups to parse header data
+
 CartridgeType get_cart_type(uint8_t input) {
     switch (input) {
         case 0x00: return CartridgeType::ROM_ONLY;
