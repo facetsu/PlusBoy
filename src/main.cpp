@@ -50,8 +50,17 @@ int main()
 
     // Initialize our CPU and system with a pointer to memory
     CPU cpu(memorypointer);
-    cpu.fetch();
-    std::cout << "This is the opcode it fetched: " << static_cast<int>(cpu.opcode) << std::endl;
+
+    std::cout << "\n";
+    for(int i = 0; i < 20; i++)
+    {
+        cpu.fetch();
+        std::cout << "This is the opcode it fetched: " << std::setw(2) << std::setfill('0') << static_cast<int>(cpu.opcode) << std::endl;
+    }
+
+    // cpu.fetch();
+    // std::cout << "This is the opcode it fetched: " << static_cast<int>(cpu.opcode) << std::endl;
+
     delete memorypointer;
 
     std::cin >> filepath;   // just to keep terminal open

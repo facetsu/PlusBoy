@@ -3,6 +3,8 @@
 CPU::CPU(Memory* memory)
 {
     this->memory = memory;
+    sp = 0;
+    pc = 0;
 }
 
 /* 
