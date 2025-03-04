@@ -1,4 +1,5 @@
 #include "../include/cpu.h"
+#include <iomanip>
 
 CPU::CPU(Memory* memory)
 {
@@ -33,6 +34,17 @@ void CPU::setHL(u8 h, u8 l)
     this->hl = (h << 8) | l; 
 }
 
+u16 CPU::read16Bit()
+{
+    u8 low = memory->readByte(pc);
+    pc++;
+    u8 high = memory->readByte(pc);
+    pc++;
+
+    u16 address = (high << 8) | low; // bitwise shifts to align into a single 16 bit valuer
+    return address;
+}
+
 void CPU::fetch()
 {
     opcode = memory->readByte(pc);
@@ -41,7 +53,22 @@ void CPU::fetch()
 
 void CPU::decode()
 {
+    switch(opcode)
+    {
+        case 0x31: // LD SP, d16
+            sp = read16Bit();
+            break;
 
+        case 0xAF: // XOR A,A
+            a = a ^ a;
+            f = 0b10000000; // sets zero flag
+            break;
+        
+        default:
+            std::cout << "Unknown opcode: " << std::hex << std::setw(2) << std::setfill('0') << (int)opcode << "\n";
+            break;
+    }
+    
 }
 
 void CPU::execute()

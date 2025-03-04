@@ -23,6 +23,8 @@ class CPU
     u8 opcode;  // The next opcode to be decoded and run
     Memory* memory;
     void fetch();
+    void decode();
+    void execute();
 
     private:
         u8 a, b, c, d, e, f, g, h, l;  // our 8-bit registers
@@ -34,7 +36,5 @@ class CPU
         void setBC(u8 b, u8 c);
         void setDE(u8 d, u8 e);
         void setHL(u8 h, u8 l);
-        
-        void decode();
-        void execute();
+        u16 read16Bit();
 };
