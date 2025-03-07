@@ -56,7 +56,7 @@ int main()
     {
         cpu.fetch();
         std::cout << "This is the opcode it fetched: " << std::setw(2) << std::setfill('0') << static_cast<int>(cpu.opcode) << std::endl;
-        cpu.decode();
+        cpu.interpret();
     }
 
     // cpu.fetch();

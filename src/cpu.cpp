@@ -14,24 +14,31 @@ CPU::CPU(Memory* memory)
  * and then OR the result with the second register to set the lower 8 bits.
 */ 
 
-void CPU::setAF(u8 a, u8 f)
+void CPU::setAF()
 {                               
-    this->af = (a << 8) | f;    
+    af = (a << 8) | f;    
 }
 
-void CPU::setBC(u8 b, u8 c)
+void CPU::setBC()
 {
-    this->bc = (b << 8) | c; 
+    bc = (b << 8) | c; 
 }
 
-void CPU::setDE(u8 d, u8 e)
+void CPU::setDE()
 {
-    this->de = (d << 8) | e; 
+    de = (d << 8) | e; 
 }
 
-void CPU::setHL(u8 h, u8 l)
+void CPU::setHL()
 {
-    this->hl = (h << 8) | l; 
+    hl = (h << 8) | l; 
+}
+
+u8 CPU::read8Bit()
+{
+    u8 toReturn = memory->readByte(pc);
+    pc++;
+    return toReturn;
 }
 
 u16 CPU::read16Bit()
@@ -49,29 +56,4 @@ void CPU::fetch()
 {
     opcode = memory->readByte(pc);
     pc++;
-}
-
-void CPU::decode()
-{
-    switch(opcode)
-    {
-        case 0x31: // LD SP, d16
-            sp = read16Bit();
-            break;
-
-        case 0xAF: // XOR A,A
-            a = a ^ a;
-            f = 0b10000000; // sets zero flag
-            break;
-        
-        default:
-            std::cout << "Unknown opcode: " << std::hex << std::setw(2) << std::setfill('0') << (int)opcode << "\n";
-            break;
-    }
-    
-}
-
-void CPU::execute()
-{
-
 }

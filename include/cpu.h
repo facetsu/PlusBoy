@@ -10,21 +10,20 @@ class CPU
 
         explicit CPU(Memory* memory);
 
+        // our constant loop for emulation
         void run()
         {
             while (true)
             {
                 fetch();
-                decode();
-                execute();
+                interpret();
             }
         }
     
-    u8 opcode;  // The next opcode to be decoded and run
-    Memory* memory;
-    void fetch();
-    void decode();
-    void execute();
+        u8 opcode;  // The next opcode to be decoded and run
+        Memory* memory;
+        void fetch();
+        void interpret();
 
     private:
         u8 a, b, c, d, e, f, g, h, l;  // our 8-bit registers
@@ -32,9 +31,10 @@ class CPU
         u16 sp, pc;                    // our special registers: stack pointer and program counter
         
 
-        void setAF(u8 a, u8 f); 
-        void setBC(u8 b, u8 c);
-        void setDE(u8 d, u8 e);
-        void setHL(u8 h, u8 l);
+        void setAF(); 
+        void setBC();
+        void setDE();
+        void setHL();
+        u8 read8Bit();
         u16 read16Bit();
 };
